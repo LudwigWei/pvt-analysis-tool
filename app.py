@@ -11,6 +11,80 @@ def main():
     
     init_session_state()
     apply_custom_css()
+    
+    # --- SPLASH SCREEN LOGIC ---
+    if not st.session_state.splash_dismissed:
+        splash_html = """
+        <style>
+        .splash-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+        }
+        .splash-logo {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #2DD4BF; /* Industrial mint */
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: rotate 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+        .splash-logo::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background-color: #2DD4BF;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+        .splash-title {
+            margin-top: 32px;
+            color: #2DD4BF;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            animation: fadein 2s ease-in;
+            font-family: 'Inter', sans-serif;
+        }
+        .splash-subtitle {
+            margin-top: 8px;
+            color: #64748B;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            font-weight: 400;
+            text-transform: uppercase;
+            animation: fadein 2.5s ease-in;
+            font-family: 'Inter', sans-serif;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(180deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        @keyframes fadein {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        </style>
+        <div class="splash-container">
+            <div class="splash-logo"></div>
+            <div class="splash-title">PVT Analysis Tool</div>
+            <div class="splash-subtitle">System Initialization</div>
+        </div>
+        """
+        st.markdown(splash_html, unsafe_allow_html=True)
+        time.sleep(2.5)
+        st.session_state.splash_dismissed = True
+        st.rerun()
+
+    # --- MAIN APP ROUTINE ---
     render_header()
 
     left_col, right_col = st.columns([1.2, 2.8], gap="medium")
@@ -24,70 +98,8 @@ def main():
         
         # Only render the charts if the button was clicked!
         if st.session_state.analysis_run:
-            
-            # Check if we need to show the loading animation for a new run
-            if not st.session_state.get("analysis_loaded", False):
-                results_placeholder.empty() # Clear out anything inherently bound
-                
-                with results_placeholder.container():
-                    # Custom Modern Loader HTML/CSS
-                    loader_html = """
-                <style>
-                .loader-container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    height: 60vh;
-                    width: 100%;
-                }
-                .neon-ring {
-                    width: 50px;
-                    height: 50px;
-                    border: 3px solid #27272A;
-                    border-top-color: #3B82F6;
-                    border-radius: 50%;
-                    animation: spin 1s linear infinite, glow 2s ease-in-out infinite;
-                }
-                .loading-text {
-                    margin-top: 24px;
-                    color: #A1A1AA;
-                    font-size: 14px;
-                    font-family: 'Inter', sans-serif;
-                    font-weight: 500;
-                    letter-spacing: 0.05em;
-                    animation: pulse 1.5s ease-in-out infinite;
-                }
-                @keyframes spin { 
-                    0% { transform: rotate(0deg); } 
-                    100% { transform: rotate(360deg); } 
-                }
-                @keyframes glow {
-                    0%, 100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.1); }
-                    50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-                }
-                @keyframes pulse {
-                    0%, 100% { opacity: 0.6; }
-                    50% { opacity: 1; color: #FAFAFA; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
-                }
-                </style>
-                <div class="loader-container">
-                    <div class="neon-ring"></div>
-                    <div class="loading-text">Running PVT Correlations...</div>
-                </div>
-                """
-                
-                    # Render loader in the placeholder
-                    st.markdown(loader_html, unsafe_allow_html=True)
-                    time.sleep(3)
-                
-                # Setup session state and immediately rerun to clear the loader and cleanly render results 
-                st.session_state.analysis_loaded = True
-                st.rerun()
-                
-            else:
-                with results_placeholder.container():
-                    render_results(st.session_state.inputs)
+            with results_placeholder.container():
+                render_results(st.session_state.inputs)
         else:
             with results_placeholder.container():
                 render_empty_state()
