@@ -39,13 +39,23 @@ def apply_custom_css():
     ::-webkit-scrollbar-thumb {{ background: {THEME['border_hover']}; border-radius: 10px; }}
     ::-webkit-scrollbar-thumb:hover {{ background: {THEME['muted']}; }}
 
-    /* HIDE STREAMLIT NATIVE LOADING ELEMENTS */
+    /* HIDE GLOBAL STREAMLIT LOADING ANIMATIONS & SKELETONS */
     [data-testid="stAppSkeleton"],
     [data-testid="stSkeleton"],
     .stSkeleton,
-    [data-testid="stStatusWidget"] {{
+    [data-testid="stStatusWidget"],
+    .stApp > div:first-child[data-testid="stAppSkeleton"],
+    div.block-container.stSkeleton {{
         display: none !important;
+        opacity: 0 !important;
         visibility: hidden !important;
+        height: 0 !important;
+        pointer-events: none !important;
+    }}
+
+    /* Prevent the initial gray background flash by forcing the theme color instantly */
+    .stApp, html, body {{
+        background-color: {THEME['bg']} !important; 
     }}
 
     /* APP BACKGROUND & LAYOUT */
