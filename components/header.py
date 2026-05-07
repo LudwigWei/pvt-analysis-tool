@@ -1,6 +1,7 @@
 import streamlit as st
 from utils.theme import THEME
 
+# Header component with logo, title, and badge
 def render_header():
     st.markdown(f"""
     <div class="fixed-header">

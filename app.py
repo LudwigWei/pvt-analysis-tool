@@ -12,7 +12,7 @@ def main():
     init_session_state()
     apply_custom_css()
     
-    # --- SPLASH SCREEN LOGIC ---
+   # Splash Screen (Only show on first load)
     if not st.session_state.splash_dismissed:
         splash_html = """
         <style>
@@ -84,15 +84,18 @@ def main():
         st.session_state.splash_dismissed = True
         st.rerun()
 
-    # --- MAIN APP ROUTINE ---
+    # Main App Interface
     render_header()
 
+    # Layout: Two columns - Left for inputs, Right for results
     left_col, right_col = st.columns([1.2, 2.8], gap="medium")
 
+    # Left Column: Input Panels
     with left_col:
         current_inputs = render_input_panel()
         render_correlations_panel()
 
+    # Right Column: Results and Charts (conditionally rendered after analysis run)
     with right_col:
         results_placeholder = st.empty()
         

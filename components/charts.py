@@ -2,14 +2,17 @@ import streamlit as st
 import plotly.graph_objects as go
 from utils.theme import THEME
 
+# Helper function to convert hex color to rgba with specified alpha
 def hex_to_rgba(hex_color, alpha=0.15):
     h = hex_color.lstrip('#')
     return f'rgba({int(h[0:2], 16)},{int(h[2:4], 16)},{int(h[4:6], 16)},{alpha})'
 
+# Chart rendering function for area charts with consistent styling
 def render_area_chart(x, y, color, title_label):
     y_min, y_max = min(y), max(y)
     y_pad = (y_max - y_min) * 0.12 if y_max != y_min else abs(y_max) * 0.1 or 0.1
     
+    # Create Plotly figure with area chart
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=x, y=y, mode='lines+markers',
@@ -18,6 +21,7 @@ def render_area_chart(x, y, color, title_label):
         hovertemplate='<b>%{x}</b><br>Value: %{y:.4f}<extra></extra>'
     ))
     
+    # Chart layout with consistent styling
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
         font=dict(family='IBM Plex Mono', size=10, color='#71717A'),

@@ -10,6 +10,7 @@ def build_metric_card(label, value, unit, color):
 def render_results(inputs):
     fluid = pvt.classify_fluid(inputs['api'], inputs['gor'])
     
+    # Define colors for each fluid type
     fluid_colors = {
         'Dry Gas': THEME['accent'], 'Wet Gas': THEME['accent2'],
         'Gas Condensate / Retrograde Gas': THEME['accent3'],
@@ -22,6 +23,7 @@ def render_results(inputs):
     
     df = pvt.generate_pvt_table(inputs['api'], inputs['gg'], inputs['temp'], inputs['pb'], inputs['rs_pb'], steps=10)
     
+    # Calculate key parameters at bubble point for banner and metrics
     t_rankine = inputs['temp'] + 460
     tpc, ppc = pvt.calc_pseudo(inputs['gg'])
     bo_pb = pvt.calc_bo(inputs['api'], inputs['gg'], inputs['rs_pb'], t_rankine)
@@ -31,6 +33,7 @@ def render_results(inputs):
     mug_pb = pvt.calc_mug(t_rankine, inputs['pb'], inputs['gg'], z_pb)
     co_pb = pvt.calc_co(inputs['api'], inputs['gg'], inputs['rs_pb'], t_rankine, inputs['pb'], bo_pb)
 
+    # Render banner with fluid classification
     banner_html = f"""
     <div style='background: linear-gradient(90deg, {f_color}1A 0%, {THEME['bg2']} 100%); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; border-left: 5px solid {f_color}; box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.02);'>
         <div style='font-size: 11px; font-family: monospace; color: {THEME['muted']}; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;'>Fluid Classification</div>

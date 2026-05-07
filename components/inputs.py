@@ -41,6 +41,7 @@ def render_input_panel():
         st.write("")
         return current_inputs
 
+# Active Models Panel (Below the inputs)
 def render_correlations_panel():
     with st.container(border=True):
         st.markdown('<div class="card-header">Active Models</div>', unsafe_allow_html=True)
