@@ -87,7 +87,7 @@ def main():
                 
             else:
                 with results_placeholder.container():
-                    render_results(current_inputs)
+                    render_results(st.session_state.inputs)
         else:
             with results_placeholder.container():
                 render_empty_state()
