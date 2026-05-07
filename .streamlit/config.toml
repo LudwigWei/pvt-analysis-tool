@@ -1,6 +1,12 @@
 [theme]
-base="dark"
-primaryColor="#3b82f6"
-backgroundColor="#0d0f14"
-secondaryBackgroundColor="#13161e"
-textColor="#e2e8f0"
+primaryColor = "#00F0FF" # High-contrast industrial cyan
+backgroundColor = "#090A0F" # Deepest dark for the background
+secondaryBackgroundColor = "#11141C" # Slightly lighter for bento boxes
+textColor = "#E2E8F0"
+font = "monospace"
+
+[server]
+runOnSave = true
+
+[client]
+toolbarMode = "minimal"
