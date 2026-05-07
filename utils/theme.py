@@ -282,111 +282,429 @@ def apply_custom_css():
         * {{
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+            color-adjust: exact !important;
+            overflow: visible !important;
+            box-shadow: none !important;
+            outline: none !important;
+            border-left-color: transparent !important;
+            border-right-color: transparent !important;
         }}
 
-        /* 1. Hide Everything Except Results */
+        /* Hide scrollbars and borders artifacts */
+        ::-webkit-scrollbar {{
+            display: none !important;
+        }}
+
+        /* Hide all sidebars and unwanted elements */
         header, [data-testid="stHeader"], [data-testid="stSidebar"], section[data-testid="stSidebar"],
         .fixed-header, [data-testid="stToolbar"], [data-testid="collapsedControl"],
-        [role="tablist"], button, .stButton, [data-testid="stFileUploader"], 
-        [data-testid="stDownloadButton"], [data-testid="stFileUploaderDropzone"], small {{
+        [data-testid="stDownloadButton"], [data-testid="stFileUploaderDropzone"],
+        [data-testid="stFileUploader"] {{
             display: none !important;
         }}
 
-        /* Hide the entire left column (where inputs and models are) */
-        [data-testid="column"]:has([data-testid="stNumberInput"]),
-        [data-testid="column"]:has(div:contains('Reservoir Parameters')),
-        [data-testid="column"]:has(div:contains('Active Models')) {{
+        /* Hide buttons */
+        button {{
             display: none !important;
         }}
 
-        /* Hide Property Table */
-        [data-baseweb="tab-panel"]:nth-of-type(1), table, thead, tbody, tr, th, td {{
-            display: none !important;
-        }}
-
-        /* 2. Fix Structural Overlap (Full-Width Mode) */
-        [data-testid="column"], [data-testid="stHorizontalBlock"] {{
+        /* 2. Full-width Layout - Stack Everything Vertically */
+        [data-testid="stApp"] {{
+            display: block !important;
             width: 100% !important;
-            flex: none !important;
-            max-width: none !important;
-            min-width: 100% !important;
-            display: block !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            border: none !important;
+            box-shadow: none !important;
         }}
 
-        /* Force All Tabs Open */
-        [data-baseweb="tab-panel"] {{
+        [data-testid="stVerticalBlock"], [data-testid="stColumn"], .block-container {{
+            width: 100% !important;
+            max-width: 100% !important;
             display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            height: auto !important;
-            position: relative !important;
+            margin: 0 !important;
+            padding: 0.5rem !important;
+            overflow: visible !important;
+            border: none !important;
+            border-left: none !important;
+            border-right: none !important;
         }}
 
-        /* 3. Professional Formatting */
-        /* Metrics Grid */
-        div[data-testid="stMarkdownContainer"] > div[style*="display: grid"] {{
+        [data-testid="stHorizontalBlock"] {{
+            width: 100% !important;
+            display: block !important;
+            flex-direction: column !important;
+            margin-bottom: 1rem !important;
+            overflow: visible !important;
+            border: none !important;
+            border-left: none !important;
+            border-right: none !important;
+        }}
+
+        /* Remove side borders from generic containers to avoid page-edge lines */
+        div, section {{
+            border-left: none !important;
+            border-right: none !important;
+        }}
+
+        /* Remove all divider lines */
+        [role="separator"] {{
+            display: none !important;
+        }}
+
+        /* Hide any stray svg or divider elements */
+        svg[class*="divider"],
+        svg[class*="separator"],
+        [class*="divider"],
+        [class*="separator"] {{
+            display: none !important;
+        }}
+
+        /* 3. Input Sections (Reservoir Parameters & Active Models) - Stack Vertically */
+        [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stNumberInput"]),
+        [data-testid="stVerticalBlockBorderWrapper"]:has(label) {{
+            display: block !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-bottom: 1.5rem !important;
+        }}
+
+        /* Input fields - vertical layout with label on top */
+        [data-testid="stColumn"]:has([data-testid="stNumberInput"]) {{
+            display: block !important;
+            width: 100% !important;
+            margin-bottom: 1rem !important;
+        }}
+
+        /* Hide only the collapsed number input labels, not the custom markdown labels */
+        [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stNumberInput"]) label {{
+            display: none !important;
+        }}
+
+        label {{
+            display: block !important;
+            font-weight: 600 !important;
+            color: #000000 !important;
+            margin-bottom: 0.5rem !important;
+            font-size: 14px !important;
+            text-decoration: none !important;
+        }}
+
+        /* Ensure custom markdown labels (name and unit) stay visible */
+        [data-testid="stMarkdownContainer"] {{
+            display: block !important;
+            margin-bottom: 0.5rem !important;
+            color: #000000 !important;
+        }}
+
+        label del, label s, label strike {{
+            display: none !important;
+        }}
+
+        input[type="number"], input, select {{
+            background: #FFFFFF !important;
+            color: #000000 !important;
+            border: 1px solid #D1D5DB !important;
+            padding: 0.75rem !important;
+            width: 100% !important;
+            display: block !important;
+            margin-bottom: 0.5rem !important;
+        }}
+
+        /* 4. Fluid Classification on New Page */
+        [data-baseweb="tab-panel"]:nth-of-type(1) {{
+            display: block !important;
+            page-break-before: always !important;
+            page-break-inside: avoid !important;
+            break-before: page !important;
+            padding: 1rem !important;
+        }}
+
+        /* 5. Results Section */
+        [data-baseweb="tab-panel"]:nth-of-type(2) {{
+            display: block !important;
+            page-break-after: auto !important;
+        }}
+
+        /* Metrics Grid - 3 columns */
+        div[style*="display: grid"] {{
             display: grid !important;
             grid-template-columns: 1fr 1fr 1fr !important;
-            gap: 12px !important;
+            gap: 1rem !important;
         }}
 
-        /* Charts */
-        [data-testid="stPlotlyChart"] {{
-            width: 100% !important;
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-        }}
-
-        /* Interpretation */
-        div[data-testid="stMarkdownContainer"] > div {{
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-        }}
-
-        [data-testid="stVerticalBlockBorderWrapper"] {{
-            box-shadow: none !important;
-            border: 1px solid #E5E7EB !important;
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-        }}
-
+        /* 6. Property Table with Better Grid */
         [data-baseweb="tab-panel"]:nth-of-type(3) {{
-            margin-top: 30px !important;
+            display: block !important;
+            page-break-after: auto !important;
         }}
 
-        /* 4. Ink-Friendly Colors */
-        html, body, .stApp, .block-container, [data-testid="stVerticalBlockBorderWrapper"], .card-header {{
+        table {{
+            width: 100% !important;
+            border-collapse: collapse !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-top: 1rem !important;
+            font-size: 12px !important;
+        }}
+
+        thead {{
+            display: table-header-group !important;
+        }}
+
+        thead th {{
+            background: #F3F4F6 !important;
+            color: #000000 !important;
+            border: 1px solid #D1D5DB !important;
+            padding: 0.75rem !important;
+            text-align: center !important;
+            font-weight: 600 !important;
+            font-size: 11px !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-left-color: #D1D5DB !important;
+            border-right-color: #D1D5DB !important;
+        }}
+
+        thead th:first-child {{
+            border-left: 1px solid #D1D5DB !important;
+        }}
+
+        thead th:last-child {{
+            border-right: 1px solid #D1D5DB !important;
+        }}
+
+        tbody tr {{
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }}
+
+        tbody tr:nth-child(even) {{
+            background-color: #F9FAFB !important;
+        }}
+
+        tbody td {{
+            border: 1px solid #E5E7EB !important;
+            color: #000000 !important;
+            padding: 0.75rem !important;
+            text-align: center !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-left-color: #E5E7EB !important;
+            border-right-color: #E5E7EB !important;
+        }}
+
+        tbody td:first-child {{
+            border-left: 1px solid #E5E7EB !important;
+        }}
+
+        tbody td:last-child {{
+            border-right: 1px solid #E5E7EB !important;
+        }}
+
+        /* 7. Charts Section - Start on New Page */
+        [data-baseweb="tab-panel"]:nth-of-type(4) {{
+            display: block !important;
+            page-break-before: always !important;
+            page-break-after: auto !important;
+            break-before: page !important;
+        }}
+
+        /* Wrapper for title + chart */
+        [data-testid="stVerticalBlock"]:has([data-testid="stPlotlyChart"]) {{
+            display: block !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-bottom: 2rem !important;
+            background: #FFFFFF !important;
+            border: 2px solid #D1D5DB !important;
+            border-left-color: #D1D5DB !important;
+            border-right-color: #D1D5DB !important;
+            padding: 1rem !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        }}
+
+        [data-testid="stPlotlyChart"] {{
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+            height: auto !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-bottom: 0 !important;
+            margin-top: 1rem !important;
+            background: #FFFFFF !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            overflow: hidden !important;
+        }}
+
+        [data-testid="stPlotlyChart"] iframe {{
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+            height: 450px !important;
+            border: none !important;
+            overflow: hidden !important;
+        }}
+
+        [data-testid="stPlotlyChart"] > div,
+        [data-testid="stPlotlyChart"] .js-plotly-plot,
+        [data-testid="stPlotlyChart"] .plot-container,
+        [data-testid="stPlotlyChart"] .svg-container {{
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+        }}
+
+        [data-testid="stPlotlyChart"] svg,
+        [data-testid="stPlotlyChart"] canvas {{
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }}
+
+        /* 8. Chart Titles - Inside Card */
+        [data-testid="stMarkdownContainer"] {{
+            display: block !important;
+            color: #000000 !important;
+        }}
+
+        [data-testid="stMarkdownContainer"] h2,
+        [data-testid="stMarkdownContainer"] h3,
+        [data-testid="stMarkdownContainer"] h4 {{
+            display: block !important;
+            color: #000000 !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            margin-top: 0 !important;
+            margin-bottom: 1rem !important;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+            padding-bottom: 0.75rem !important;
+            border-bottom: 1px solid #D1D5DB !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }}
+
+        /* 9. Interpretation Section - Fixed Alignment */
+        [data-baseweb="tab-panel"]:nth-of-type(5) {{
+            display: block !important;
+            page-break-before: auto !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-top: 2rem !important;
+            color: #000000 !important;
+        }}
+
+        [data-testid="stMarkdownContainer"] p {{
+            color: #000000 !important;
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 0.75rem !important;
+            text-align: left !important;
+        }}
+
+        /* Make all text in interpretation black including numbers */
+        [data-baseweb="tab-panel"]:nth-of-type(5) * {{
+            color: #000000 !important;
+        }}
+
+        /* Interpretation arrows and text alignment */
+        [data-baseweb="tab-panel"]:nth-of-type(5) [data-testid="stMarkdownContainer"] {{
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 1rem !important;
+            background: #FAFBFC !important;
+            border-left: 4px solid #D1D5DB !important;
+            color: #000000 !important;
+        }}
+
+        /* 10. Professional Colors for Print */
+        html, body, .stApp, .block-container {{
             background-color: #FFFFFF !important;
             background: #FFFFFF !important;
             color: #000000 !important;
-            box-shadow: none !important;
         }}
         
-        p, h1, h2, h3, h4, h5, h6, span, div, label, .metric-value, .input-unit {{
-            color: #000000 !important;
+        [data-testid="stVerticalBlockBorderWrapper"] {{
+            background-color: #FFFFFF !important;
+            background: #FFFFFF !important;
+            border: none !important;
+            box-shadow: none !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            padding: 1rem !important;
+            margin-bottom: 1rem !important;
         }}
 
-        /* Remove dark-mode gradients from banner and cards */
+        [data-testid="stVerticalBlockBorderWrapper"] > div {{
+            border: none !important;
+            box-shadow: none !important;
+        }}
+
+        .card-header {{
+            background-color: #F9FAFB !important;
+            color: #000000 !important;
+            border-bottom: 2px solid #D1D5DB !important;
+            padding: 1rem !important;
+            margin-bottom: 1rem !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+        }}
+
+        p, h1, h5, h6, span, div, td, th {{
+            color: #000000 !important;
+            background: transparent !important;
+        }}
+
+        /* Remove dark gradients and backgrounds */
         div[style*="linear-gradient"] {{
             background: #FFFFFF !important;
             background-image: none !important;
-            border: 1px solid #E5E7EB !important;
-            border-left-width: 5px !important;
+            border: 1px solid #D1D5DB !important;
             box-shadow: none !important;
         }}
-        
-        /* Metric cards background reset */
-        div[style*="background: #141415"] {{
-            background: #FFFFFF !important;
-            background-color: #FFFFFF !important;
-            border: 1px solid #E5E7EB !important;
+
+        /* Metric cards */
+        div[style*="background: #141415"],
+        div[style*="background: #0A0A0B"] {{
+            background: #F9FAFB !important;
+            background-color: #F9FAFB !important;
+            border: 1px solid #D1D5DB !important;
+            color: #000000 !important;
+            padding: 1rem !important;
         }}
 
-        /* Maximize print layout width */
+        /* 11. Page Layout */
         .block-container {{
             max-width: 100% !important;
-            padding: 0 !important;
+            padding: 0.5rem !important;
             margin: 0 !important;
+        }}
+
+        @page {{
+            margin: 0.5in;
+            size: letter;
+            color-adjust: exact;
+        }}
+
+        body {{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow: visible;
+        }}
+
+        html {{
+            margin: 0;
+            padding: 0;
+            overflow: visible;
         }}
     }}
 

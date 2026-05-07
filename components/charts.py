@@ -13,18 +13,20 @@ def render_area_chart(x, y, color, title_label):
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=x, y=y, mode='lines+markers',
-        line=dict(color=color, width=1.8), marker=dict(size=6.0, color=color),
-        fill='tozeroy', fillcolor=hex_to_rgba(color, 0.18)
+        line=dict(color=color, width=1.8), marker=dict(size=7.0, color=color),
+        fill='tozeroy', fillcolor=hex_to_rgba(color, 0.18),
+        hovertemplate='<b>%{x}</b><br>Value: %{y:.4f}<extra></extra>'
     ))
     
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(family='IBM Plex Mono', size=9, color='#71717A'),
-        margin=dict(l=44, r=12, t=36, b=32), height=180,
+        font=dict(family='IBM Plex Mono', size=10, color='#71717A'),
+        margin=dict(l=32, r=12, t=14, b=32), height=180,
         title=dict(text=title_label, font=dict(size=9, color='#71717A'), x=0.01, y=0.92),
-        xaxis=dict(autorange='reversed', showgrid=True, gridcolor='#71717A', linecolor='#71717A'),
-        yaxis=dict(range=[max(0, y_min - y_pad), y_max + y_pad], showgrid=True, gridcolor='#71717A', linecolor='#71717A'),
-        showlegend=False, hovermode='x unified',
+        xaxis=dict(autorange='reversed', showgrid=True, gridcolor='#2A2A2D', linecolor='#71717A'),
+        yaxis=dict(range=[max(0, y_min - y_pad), y_max + y_pad], showgrid=True, gridcolor="#2A2A2D", linecolor='#71717A'),
+        showlegend=False, hovermode='closest',
+        hoverlabel=dict(bgcolor='#FFFFFF', bordercolor='#D1D5DB', font=dict(color='#000000', size=12)),
         uirevision='constant',       
         transition=dict(duration=500, easing="cubic-in-out")
     )

@@ -58,13 +58,25 @@ def render_results(inputs):
             pressures = df["P (psia)"].tolist()
             tc1, tc2 = st.columns(2, gap="small")
             with tc1:
-                render_area_chart(pressures, df["Rs (scf/STB)"].tolist(), THEME['accent'], 'SOLUTION GOR (Rs) vs PRESSURE')
-                render_area_chart(pressures, df["muo (cp)"].tolist(), THEME['accent3'], 'OIL VISCOSITY (μo) vs PRESSURE')
-                render_area_chart(pressures, df["Z-factor"].tolist(), '#f97316', 'Z-FACTOR vs PRESSURE')
+                with st.container(border=True):
+                    st.markdown('<div class="card-header">SOLUTION GOR (Rs) vs PRESSURE</div>', unsafe_allow_html=True)
+                    render_area_chart(pressures, df["Rs (scf/STB)"].tolist(), THEME['accent'], '')
+                with st.container(border=True):
+                    st.markdown('<div class="card-header">OIL VISCOSITY (μo) vs PRESSURE</div>', unsafe_allow_html=True)
+                    render_area_chart(pressures, df["muo (cp)"].tolist(), THEME['accent3'], '')
+                with st.container(border=True):
+                    st.markdown('<div class="card-header">Z-FACTOR vs PRESSURE</div>', unsafe_allow_html=True)
+                    render_area_chart(pressures, df["Z-factor"].tolist(), '#f97316', '')
             with tc2:
-                render_area_chart(pressures, df["Bo (RB/STB)"].tolist(), THEME['accent4'], 'OIL FVF (Bo) vs PRESSURE')
-                render_area_chart(pressures, df["Bg (RB/Mscf)"].tolist(), THEME['accent2'], 'GAS FVF (Bg) vs PRESSURE')
-                render_area_chart(pressures, df["mug (cp)"].tolist(), THEME['accent5'], 'GAS VISCOSITY (μg) vs PRESSURE')
+                with st.container(border=True):
+                    st.markdown('<div class="card-header">OIL FVF (Bo) vs PRESSURE</div>', unsafe_allow_html=True)
+                    render_area_chart(pressures, df["Bo (RB/STB)"].tolist(), THEME['accent4'], '')
+                with st.container(border=True):
+                    st.markdown('<div class="card-header">GAS FVF (Bg) vs PRESSURE</div>', unsafe_allow_html=True)
+                    render_area_chart(pressures, df["Bg (RB/Mscf)"].tolist(), THEME['accent2'], '')
+                with st.container(border=True):
+                    st.markdown('<div class="card-header">GAS VISCOSITY (μg) vs PRESSURE</div>', unsafe_allow_html=True)
+                    render_area_chart(pressures, df["mug (cp)"].tolist(), THEME['accent5'], '')
 
         with tab3:
             Rs_min = f"{df['Rs (scf/STB)'].iloc[-1]:.1f}"
