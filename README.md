@@ -1,29 +1,44 @@
 # PVT Analysis Tool
 
 ## Overview
-The PVT Analysis Tool is a comprehensive, web-based dashboard designed for Reservoir Engineering applications. Built with Streamlit, this application allows engineers to calculate, visualize, and analyze fluid properties (Pressure-Volume-Temperature correlations) using industry-standard empirical models.
+The PVT Analysis Tool is a commissioned project built for Reservoir Engineering workflows. Built with Streamlit, it calculates, visualizes, and interprets fluid properties (Pressure-Volume-Temperature correlations) using industry-standard empirical models.
 
-## Key Features
-- **Industry-Standard Models:** Calculates properties using recognized correlations including Standing, Beggs-Robinson, Lee-Gonzalez, and Papay.
-- **Flexible Data Input:** Enter reservoir parameters manually or upload bulk data via CSV.
-- **Core Parameters Supported:** Handles essential inputs such as API Gravity, Temperature, Solution Gas-Oil Ratio (GOR), Gas Specific Gravity, and Bubble Point Pressure.
-- **Fluid Classification:** Automatically analyzes and classifies fluid types based on input properties.
-- **Detailed Property Tables:** Generates clear, tabulated data of calculated PVT properties across various pressure steps.
-- **Interactive Visualization:** Features dynamic Plotly charts for visual analysis of fluid behavior and phase trends.
-- **Interpretation Summary:** Provides automated technical insights and summaries based on the calculated properties.
+## Core Analytical Features
+- **Data processing and transformation:** Generates PVT datasets with Standing, Beggs-Robinson, Lee-Gonzalez, and Papay correlations.
+- **Automated insight generation:** Classifies fluid types (for example Volatile Oil or Retrograde Gas) and provides technical interpretations of dominant drive mechanisms.
+- **Interactive visualization:** Uses Plotly to render high-contrast charts for trends like oil FVF and gas Z-factor across pressure steps.
+- **Modern, responsive UI:** Streamlit UI with custom CSS, bento-box layouts, and a dark industrial theme for readability.
+- **Export and reporting:** Exports DataFrames to CSV and provides a print-ready reporting mode.
+
+## Tech Stack
+| Layer | Tools | Notes |
+| --- | --- | --- |
+| App framework | Streamlit | Web app runtime and UI layout |
+| Language | Python 3.8+ | Core runtime |
+| Data | Pandas, NumPy | Calculations and tabular assembly |
+| Visualization | Plotly Graph Objects | Interactive charts |
+| Styling | Custom CSS, HTML injection | Theme and layout control |
+
+## Data Pipeline Architecture
+| Stage | Inputs | Processing | Outputs | Files/Modules |
+| --- | --- | --- | --- | --- |
+| Parameter ingestion | API Gravity, temperature, solution GOR, gas specific gravity, bubble point pressure | Validate and normalize inputs | Cleaned inputs | app.py, components/inputs.py |
+| Correlation engine | Cleaned inputs, pressure steps | Apply empirical models for viscosity, compressibility, and FVFs | Raw computed properties | pvt_correlations.py |
+| Data assembly | Computed properties | Build structured DataFrame | PVT DataFrame | pvt_correlations.py |
+| Rendering and interpretation | PVT DataFrame | Charting and insights | Charts, narrative analysis | components/charts.py, components/results.py |
 
 ## Prerequisites
 - Python 3.8 or higher
-- pip (Python package installer)
+- pip
 
-## Installation
-
-1. Navigate to the project directory:
+## Installation and Setup
+1. Clone the repository and move into the project directory:
    ```bash
+   git clone https://github.com/yourusername/pvt-analysis-tool.git
    cd pvt-analysis-tool
    ```
 
-2. (Optional but recommended) Create and activate a virtual environment:
+2. Create and activate a virtual environment:
    ```bash
    python -m venv venv
    # On Windows:
@@ -32,17 +47,15 @@ The PVT Analysis Tool is a comprehensive, web-based dashboard designed for Reser
    source venv/bin/activate
    ```
 
-3. Install the required dependencies using `requirements.txt`:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
 ## Usage
-
-To start the application locally, run the following command from the project root:
-
+Run the app from the project root:
 ```bash
 streamlit run app.py
 ```
 
-Once the server initializes, your default web browser will automatically open the dashboard (typically accessible at `http://localhost:8501`).
+The dashboard opens at http://localhost:8501.
