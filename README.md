@@ -1,7 +1,7 @@
 # PVT Analysis Tool
 
 ## Overview
-The PVT Analysis Tool is a commissioned project built for Reservoir Engineering workflows. Built with Streamlit, it calculates, visualizes, and interprets fluid properties (Pressure-Volume-Temperature correlations) using industry-standard empirical models.
+The PVT Analysis Tool is a commissioned project built for Reservoir Engineering workflows. Built with Streamlit, it calculates, visualizes, and interprets fluid properties (Pressure-Volume-Temperature correlations) using industry-standard empirical correlations.
 
 ## Core Analytical Features
 - **Data processing and transformation:** Generates PVT datasets with Standing, Beggs-Robinson, Lee-Gonzalez, and Papay correlations.
@@ -23,7 +23,7 @@ The PVT Analysis Tool is a commissioned project built for Reservoir Engineering 
 | Stage | Inputs | Processing | Outputs | Files/Modules |
 | --- | --- | --- | --- | --- |
 | Parameter ingestion | API Gravity, temperature, solution GOR, gas specific gravity, bubble point pressure | Validate and normalize inputs | Cleaned inputs | app.py, components/inputs.py |
-| Correlation engine | Cleaned inputs, pressure steps | Apply empirical models for viscosity, compressibility, and FVFs | Raw computed properties | pvt_correlations.py |
+| Correlation engine | Cleaned inputs, pressure steps | Apply empirical correlations for viscosity, compressibility, and FVFs | Raw computed properties | pvt_correlations.py |
 | Data assembly | Computed properties | Build structured DataFrame | PVT DataFrame | pvt_correlations.py |
 | Rendering and interpretation | PVT DataFrame | Charting and insights | Charts, narrative analysis | components/charts.py, components/results.py |
 

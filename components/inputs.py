@@ -44,7 +44,7 @@ def render_input_panel():
 # Active Models Panel (Below the inputs)
 def render_correlations_panel():
     with st.container(border=True):
-        st.markdown('<div class="card-header">Active Models</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-header">Correlations Used</div>', unsafe_allow_html=True)
         html_str = f"""
         <div style='display: flex; flex-direction: column; gap: 8px;'>
             <div style='display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: {THEME['bg']}; border-radius: 6px; border: 1px solid {THEME['border']};'>
